@@ -1,35 +1,88 @@
 #include "BFS.hpp"
 
+void Graph::addEdge(int addNode, int connectingNode)
+//precondition: 2 valid user nodes
+//postcondition: add the edge into the graph vector
+{
+    //variables:
+    int isHere = -1;
+
+    //check if the node number is already in the graph structure
+    for(std::size_t i = 0; i < knownNodes.size(); ++i)
+    {
+        if(knownNodes[i] == addNode)
+        {
+            isHere = i;
+        }
+    }
+
+    if(isHere == -1)//not found, create new node and connection
+    {
+        GraphNode *newHead;
+        GraphNode *newConnection;
+
+        newHead = new GraphNode;
+        newConnection = new GraphNode;
+
+        //load the new node with the data
+        newHead->nodeName = addNode;
+        newConnection->nodeName = connectingNode;
+        newHead->next = newConnection;
+        newConnection->next = nullptr;
+
+        //add to vectors
+        knownNodes.push_back(addNode);
+        connections.push_back(newHead);
+    }
+    else //node found, no need to create a new one
+    {
+        GraphNode *newFollowing;
+        GraphNode *nodePtr;
+
+        newFollowing = new GraphNode;
+        newFollowing->nodeName = connectingNode;
+        newFollowing->next = nullptr;
+
+        nodePtr = connections[isHere];
+
+        while (nodePtr->next) //find next available spot for new edge
+        {
+            nodePtr = nodePtr->next;
+        }
+        nodePtr->next = newFollowing;
+    }
+}
+
 void Graph::bfs(int start, int startPlace, int endN)
 {
     //variables
-    std::queue<graphNode*> depthQ;
+    std::queue<GraphNode*> depthQ;
     std::vector<int> path;
     bool endFound = false;
     bool found = false;
 
-    followers[startPlace]->visited = true;
-    depthQ.push(followers[startPlace]);
+    connections[startPlace]->visited = true;
+    depthQ.push(connections[startPlace]);
 
     do
     {
-        graphNode* nodePtr = depthQ.front();
+        GraphNode* nodePtr = depthQ.front();
         depthQ.pop();
 
         for(std::size_t i = 0; i < path.size(); ++i)
         {
-            if(nodePtr->user == path[i])
+            if(nodePtr->nodeName == path[i])
             {
                 found = true;
             }
         }
         if (!found)
         {
-            path.push_back(nodePtr->user);
+            path.push_back(nodePtr->nodeName);
         }
         found = false;//reset
 
-        if(nodePtr->user == endN)
+        if(nodePtr->nodeName == endN)
         {
             endFound = true;
             break;
@@ -37,9 +90,9 @@ void Graph::bfs(int start, int startPlace, int endN)
         int i = 0;
         while(found == false)
         {
-            if(nodePtr->user == followers[i]->user)
+            if(nodePtr->nodeName == connections[i]->nodeName)
             {
-                nodePtr = followers[i];
+                nodePtr = connections[i];
                 found = true;
             }
             ++i;
