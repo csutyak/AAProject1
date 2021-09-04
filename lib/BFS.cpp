@@ -3,7 +3,7 @@
 void Graph::bfs(int start, int startPlace, int endN)
 {
     //variables
-    std::queue<FollowNode*> depthQ;
+    std::queue<graphNode*> depthQ;
     std::vector<int> path;
     bool endFound = false;
     bool found = false;
@@ -13,7 +13,7 @@ void Graph::bfs(int start, int startPlace, int endN)
 
     do
     {
-        FollowNode* nodePtr = depthQ.front();
+        graphNode* nodePtr = depthQ.front();
         depthQ.pop();
 
         for(std::size_t i = 0; i < path.size(); ++i)

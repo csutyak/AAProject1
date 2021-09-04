@@ -14,16 +14,16 @@ class Graph
 public:
     Graph();
 
-    struct FollowNode
+    struct graphNode
     {
         int user;
         bool visited = false;
-        FollowNode* next;
+        graphNode* next;
     };
-    FollowNode* head;
+    graphNode* head;
 
     std::vector<int>follow;
-    std::vector<FollowNode*> followers;
+    std::vector<graphNode*> followers;
 
     void addEdge(int, int);
     void bfs(int, int, int);
