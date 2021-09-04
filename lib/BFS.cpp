@@ -36,12 +36,12 @@ void Graph::addEdge(int addNode, int connectingNode)
     }
     else //node found, no need to create a new one
     {
-        GraphNode *newFollowing;
+        GraphNode *newConnection;
         GraphNode *nodePtr;
 
-        newFollowing = new GraphNode;
-        newFollowing->nodeName = connectingNode;
-        newFollowing->next = nullptr;
+        newConnection = new GraphNode;
+        newConnection->nodeName = connectingNode;
+        newConnection->next = nullptr;
 
         nodePtr = connections[isHere];
 
@@ -49,7 +49,7 @@ void Graph::addEdge(int addNode, int connectingNode)
         {
             nodePtr = nodePtr->next;
         }
-        nodePtr->next = newFollowing;
+        nodePtr->next = newConnection;
     }
 }
 

@@ -23,6 +23,7 @@ public:
     GraphNode* head;
 
     std::vector<int>knownNodes;
+    //std::vector<int>weights; //maybe this is how we can keep track of the weights for the connections?
     std::vector<GraphNode*> connections;
     
     void addEdge(int, int);
