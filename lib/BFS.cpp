@@ -24,7 +24,7 @@ void Graph::addEdge(int addNode, int connectingNode)
         newHead = new GraphNode;
         newConnection = new GraphNode;
 
-        //load the new node with the data
+        //load the new nodes with the data
         newHead->nodeName = addNode;
         newConnection->nodeName = connectingNode;
         newHead->next = newConnection;
@@ -61,6 +61,7 @@ void Graph::bfs(int start, int startPlace, int endN)
     bool endFound = false;
     bool found = false;
 
+    //initialize queue & list
     connections[startPlace]->visited = true;
     depthQ.push(connections[startPlace]);
 

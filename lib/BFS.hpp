@@ -24,7 +24,7 @@ public:
 
     std::vector<int>knownNodes;
     std::vector<GraphNode*> connections;
-
+    
     void addEdge(int, int);
     void bfs(int, int, int);
 };
