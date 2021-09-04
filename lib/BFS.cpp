@@ -73,8 +73,3 @@ void Graph::bfs(int start, int startPlace, int endN)
         std::cout << "There is no path from user " << start << " to " << endN << std::endl << std::endl;
     }
 }
-
-void testPrint()
-{
-    std::cout << "test print worked!";
-}
