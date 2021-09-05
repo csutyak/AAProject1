@@ -62,6 +62,7 @@ void Graph::bfs(int start, int startPlace, int endN)
     bool found = false;
 
     //initialize queue & list
+    //THIS LINE IS GIVING A SEG FAULT
     connections[startPlace]->visited = true;
     depthQ.push(connections[startPlace]);
 
@@ -82,7 +83,6 @@ void Graph::bfs(int start, int startPlace, int endN)
             path.push_back(nodePtr->nodeName);
         }
         found = false;//reset
-
         if(nodePtr->nodeName == endN)
         {
             endFound = true;
@@ -126,4 +126,83 @@ void Graph::bfs(int start, int startPlace, int endN)
     {
         std::cout << "There is no path from user " << start << " to " << endN << std::endl << std::endl;
     }
+}
+
+//Purpose: to obtain the users input on figuring which nodes need to be found for the shortest path
+//Input: accepts graph object and the user chose this function
+//Output: validates user input and calls graph function to find shortest path
+void shortestPath(Graph& graph)
+{
+    //variables:
+    int start;
+    int startPlace;
+    int endN;
+    bool isThere = false;
+
+    std::cout << "Please enter the starting node value: ";
+    std::cin >> start;
+    //check if the input is an actual node
+    for(std::size_t i = 0; i < graph.knownNodes.size(); ++i)
+    {
+        if(graph.knownNodes[i] == start)
+        {
+            isThere = true;
+            startPlace = i;
+            break;
+        }
+    }
+    //if not, ask again and validate user input
+    while(isThere != true)
+    {
+        std::cin.clear();
+        std::cin.ignore(1000, '\n');
+        std::cout << "Invalid input. Please input a valid user node." << std::endl <<
+             "Please enter the starting node value: ";
+        std::cin >> start;
+
+        for(std::size_t i = 0; i < graph.knownNodes.size(); ++i)
+        {
+            if(graph.knownNodes[i] == start)
+            {
+                isThere = true;
+                startPlace = i;
+                break;
+            }
+        }
+    }
+
+
+    std::cout << "Please enter the ending node value: ";
+    std::cin >> endN;
+    //check if the input is an actual node
+    isThere = false;
+    for(std::size_t i = 0; i < graph.knownNodes.size(); ++i)
+    {
+        if(graph.knownNodes[i] == endN)
+        {
+            isThere = true;
+            break;
+        }
+    }
+    //if not, ask again and validate user input
+    while(isThere != true)
+    {
+        std::cin.clear();
+        std::cin.ignore(1000, '\n');
+        std::cout << "Invalid input. Please input a valid user node." << std::endl <<
+             "Please enter the starting node value: ";
+        std::cin >> start;
+
+        for(std::size_t i = 0; i < graph.knownNodes.size(); ++i)
+        {
+            if(graph.knownNodes[i] == endN)
+            {
+                isThere = true;
+                break;
+            }
+        }
+    }
+    std::cout << std::endl;
+
+    graph.bfs(start, startPlace, endN); //call to necessary function
 }

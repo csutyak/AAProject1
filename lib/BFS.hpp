@@ -12,7 +12,7 @@
 class Graph
 {
 public:
-    Graph();
+    inline Graph(){};
 
     struct GraphNode
     {
@@ -23,11 +23,12 @@ public:
     GraphNode* head;
 
     std::vector<int>knownNodes;
-    //std::vector<int>weights; //maybe this is how we can keep track of the weights for the connections?
     std::vector<GraphNode*> connections;
     
-    void addEdge(int, int);
-    void bfs(int, int, int);
+    void addEdge(int addNode, int connectingNode);
+    void bfs(int start, int startPlace, int endN);
 };
+
+void shortestPath(Graph& graph);
 
 #endif
