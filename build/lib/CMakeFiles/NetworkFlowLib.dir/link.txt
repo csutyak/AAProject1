@@ -1,0 +1,2 @@
+/usr/bin/ar qc libNetworkFlowLib.a  CMakeFiles/NetworkFlowLib.dir/BFS.cpp.o
+/usr/bin/ranlib libNetworkFlowLib.a
