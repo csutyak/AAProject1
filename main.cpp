@@ -19,6 +19,8 @@ int main(int argc, char** argv)
 
         std::cout << startnode << " " << startingNode << " " << endNode << std::endl;
         bfsGraph->bfs(startnode, startingNode, endNode);
+
+        delete bfsGraph;
     }
     else if(strcmp(argv[1], "-f") == 0)
     {
