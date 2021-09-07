@@ -1,34 +1,40 @@
 #include <iostream>
 #include <string.h>
 
-#include "BFS.hpp"
 #include "main.hpp"
-#include "fileLib.hpp"
+#include "graph.hpp"
 
 int main(int argc, char** argv)
 {
     greeting();
 
-    if(strcmp(argv[1], "-b") == 0)
+    try
     {
-        Graph* bfsGraph = new Graph;
-        bfsFileParser(argv[2], bfsGraph);
-        int startnode = atoi(argv[3]);
-        int startingNode = atoi(argv[3]);
-        int endNode = atoi(argv[4]);
+        if(strcmp(argv[1], "-b") == 0)
+        {
+            std::cout << "starting bfs implementation" << std::endl;
+            graph bfsGraph(argv[2]);
+            bfsGraph.printGraph();
 
-        std::cout << startnode << " " << startingNode << " " << endNode << std::endl;
-        bfsGraph->bfs(startnode, startingNode, endNode);
+            if(bfsGraph.BFS(atoi(argv[3]), atoi(argv[4])))
+            {
+                bfsGraph.printBFSPath(atoi(argv[4]));
+            }
 
-        delete bfsGraph;
+        }
+        else if(strcmp(argv[1], "-f") == 0)
+        {
+            std::cout << "testing your Ford-Fulkerson implementation" << std::endl;
+        }
+        else if(strcmp(argv[1], "-c") == 0)
+        {
+            std::cout << "testing your application to the circulation problem" << std::endl;
+        }
     }
-    else if(strcmp(argv[1], "-f") == 0)
+    catch(const char* exception)
     {
-        std::cout << "testing your Ford-Fulkerson implementation" << std::endl;
-    }
-    else if(strcmp(argv[1], "-c") == 0)
-    {
-        std::cout << "testing your application to the circulation problem" << std::endl;
+        std::cout << "ERROR" << std::endl;
+        std::cout << exception << std::endl;
     }
     return 0;
 }
