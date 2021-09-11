@@ -140,54 +140,61 @@ void graph::printGraph()
 
 bool graph::BFS(int startNode, int endNode) 
 {
-    std::cerr << "starting BFS" << std::endl;
-    // a queue to maintain queue of vertices whose
-    // adjacency list is to be scanned as per normal
-    // DFS algorithm
-    std::list<int> queue;
- 
-    // boolean array visited[] which stores the
-    // information whether ith vertex is reached
-    // at least once in the Breadth first search
-    bool* visited = new bool[nodeCount];
+    //checks to make sure arguments are in the graph
+    if(ifNode(startNode) && ifNode(endNode)) {
 
-    for (int i = 0; i < nodeCount; i++) 
-    {
-        visited[i] = false;
-    }
+        std::cerr << "starting BFS" << std::endl;
+        // a queue to maintain queue of vertices whose
+        // adjacency list is to be scanned as per normal
+        // DFS algorithm
+        std::list<int> queue;
  
-    // now source is first to be visited and
-    // distance from source to itself should be 0
-    visited[startNode] = true;
-    dist[startNode] = 0;
-    queue.push_back(startNode);
- 
-    // standard BFS algorithm
-    while (!queue.empty()) {
-        int u = queue.front();
-        queue.pop_front();
-        for(const auto& node : adjacencyList[u])
+        // boolean array visited[] which stores the
+        // information whether ith vertex is reached
+        // at least once in the Breadth first search
+        bool* visited = new bool[nodeCount];
+
+        for (int i = 0; i < nodeCount; i++) 
         {
-            if (visited[node.node] == false) 
-            {
-                visited[node.node] = true;
-                dist[node.node] = dist[u] + 1;
-                pred[node.node] = u;
-                queue.push_back(node.node);
+             visited[i] = false;
+        }
  
-                // We stop BFS when we find
-                // destination.
-                if (node.node == endNode)
-                    return true;
+        // now source is first to be visited and
+        // distance from source to itself should be 0
+        visited[startNode] = true;
+        dist[startNode] = 0;
+        queue.push_back(startNode);
+ 
+        // standard BFS algorithm
+        while (!queue.empty()) {
+            int u = queue.front();
+            queue.pop_front();
+            for(const auto& node : adjacencyList[u])
+            {
+                if (visited[node.node] == false) 
+                {
+                    visited[node.node] = true;
+                    dist[node.node] = dist[u] + 1;
+                    pred[node.node] = u;
+                    queue.push_back(node.node);
+ 
+                    // We stop BFS when we find destination
+                    if (node.node == endNode){
+                        return true;
+                    }
+                }
             }
         }
-    }
 
-    delete[] visited;
+        delete[] visited;
     
-    std::cout << "False lol";
-    return false;
-    
+        std::cout << "False lol";
+        return false;
+    }
+    else{
+        std::cout << "At least one of the argument nodes are not in this graph. Please try again." << std::endl;
+        return false;
+    }
 }
 
 void graph::printBFSPath(int endNode)
