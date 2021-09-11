@@ -107,6 +107,24 @@ void graph::addEdge(int beginNode, int endNode, int weight)
     adjacencyList[beginNode].push_back(edge(endNode, weight));
 }
 
+//This function will check to see if a node is in the graph or not
+bool graph::ifNode(int questionableNode)
+{
+    bool ifThere = false;
+
+    for(int i = 0; i < nodeCount; ++i){
+        
+        for(const auto& node : adjacencyList[i]){
+            if (node.node == questionableNode){
+                ifThere = true;
+                break;
+            }
+        }
+    }
+
+    return ifThere;
+}
+
 void graph::printGraph()
 {
     std::cout << "Node count: " << nodeCount << std::endl;

@@ -27,6 +27,8 @@ public:
     //adds and edge from the begin node to the end node of weight specificied
     void addEdge(int beginNode, int endNode, int weight);
 
+    bool ifNode(int questionableNode);
+
     void printGraph();
 
     bool BFS(int startNode, int endNode);
