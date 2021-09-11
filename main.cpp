@@ -25,6 +25,10 @@ int main(int argc, char** argv)
         else if(strcmp(argv[1], "-f") == 0)
         {
             std::cout << "testing your Ford-Fulkerson implementation" << std::endl;
+            graph bfsGraph(argv[2]);
+            bfsGraph.printGraph();
+
+            std::cout << bfsGraph.totalWeights() << std::endl;
         }
         else if(strcmp(argv[1], "-c") == 0)
         {

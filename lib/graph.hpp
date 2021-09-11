@@ -34,6 +34,8 @@ public:
     bool BFS(int startNode, int endNode);
     void printBFSPath(int endNode);
 
+    int totalWeights();
+
 private:
     int nodeCount;
     //array of vectors for each nodes data

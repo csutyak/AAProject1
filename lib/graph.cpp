@@ -134,7 +134,6 @@ void graph::printGraph()
         {
             std::cout << i << " -> " << node.node << " weight " << node.weight <<std::endl;
         }
-        
     }
 }
 
@@ -219,4 +218,20 @@ void graph::printBFSPath(int endNode)
         std::cout << path[i] << " ";
     }
     std::cout << std::endl;
+}
+
+//This function will add up all the weights in the adjacency list and return the total
+int graph::totalWeights()
+{
+    int total = 0;
+
+    for(int i = 0; i < nodeCount; ++i)
+    {
+        for(const auto& node : adjacencyList[i])
+        {
+            total += node.weight;
+        }
+    }
+
+    return total;
 }
