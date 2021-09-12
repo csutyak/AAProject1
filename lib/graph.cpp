@@ -5,8 +5,6 @@
 
 graph::graph(std::string filename)
 {
-    std::cout << "creating graph" << std::endl;
-
     //configures file path
     const std::string FILENAME_PREFIX =  "../graphs/";
     std::string fullFilename = FILENAME_PREFIX + filename;
@@ -95,8 +93,6 @@ graph::graph(std::string filename)
     inputStream.close();
     setAllFlow(0);
     populateSourceNode();
-
-    std::cout << "Graph created" << std::endl;
 }
 
 graph::~graph()
@@ -152,7 +148,6 @@ bool graph::BFS(int startNode, int endNode)
     //checks to make sure arguments are in the graph
     if(ifNode(startNode) && ifNode(endNode)) 
     {
-        std::cerr << "starting BFS" << std::endl;
         // a queue to maintain queue of vertices whose
         // adjacency list is to be scanned as per normal
         // DFS algorithm
@@ -282,17 +277,14 @@ int graph::FFMaxFlow()
 {
     //set the masterNode values
     findMasterNodes();
-    std::cout << masterSource << " " << masterTarget <<std::endl;
     setAllFlow(0);
 
     int maximumCapacity = 0;
     //use BFS to find shortest path
     //PUT THIS IN A WHILELOOP LATER WHEN THINGS WORK :)
-    
-    for(int i = 0; i < 4; ++i)
+
+    while(BFS(masterSource, masterTarget))
     {
-        std::cout << BFS(masterSource, masterTarget);
-        std::cout << "UPDATING RESIDUAL";
         //set flow to the minimum cap of the path
         maximumCapacity += setMinimumCap();
         updateResidualGraph();

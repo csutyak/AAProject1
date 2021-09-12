@@ -45,8 +45,6 @@ int main(int argc, char** argv)
 
             int maxFlow =  bfsGraph.FFMaxFlow();
             std::cout << "Max Flow is: " << maxFlow << std::endl;
-
-            bfsGraph.printGraph();
         }
         else if(strcmp(argv[1], "-c") == 0)
         {

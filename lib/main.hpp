@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <iomanip>
-#include <climits>
 
 //Purpose: To obtain user input 
 //Input: Nothing
