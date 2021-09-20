@@ -26,6 +26,9 @@ public:
     graph(std::string filename);
     ~graph();
 
+    //generates empty graph from node count
+    graph(int nodeCount);
+
     //adds and edge from the begin node to the end node of weight specificied
     void addEdge(int beginNode, int endNode, int weight);
 
@@ -43,8 +46,14 @@ public:
     //finds the max flow of a graph
     int FFMaxFlow();
 
+    //finds the max flow of a graph using capacity scaling
+    int capacityScalingFFMaxFlow();
+
     //finds the total weight of the graph
     int totalWeights();
+
+    //finds the maxWeight of an edge in the graph
+    int maxWeight();
 
 private:
     //fills source node list with a list of source nodes
@@ -62,6 +71,9 @@ private:
     void addFlow(int startNode, int endNode, int flow);
     //uses the flow of the nodes + capacity to create a residual graph
     void updateResidualGraph();
+
+    inline void setMasterNodes(int v_masterSource, int v_masterTarget) 
+        { masterTarget = v_masterTarget; masterSource = v_masterSource; }
 
     int nodeCount;
     //array of vectors for each nodes data

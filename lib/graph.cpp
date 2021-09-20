@@ -102,12 +102,25 @@ graph::~graph()
     delete[] dist;
 
     //delete targetNodes;
-    delete sourceNodes;
-    delete targetNodes;
+    if(sourceNodes != nullptr)
+    {
+        delete sourceNodes;
+        delete targetNodes;
+    }
 }
 
 void graph::addEdge(int beginNode, int endNode, int weight)
 {
+    //check and see if edge exists first
+    for(auto& node : adjacencyList[beginNode])
+    {
+        if(node.node == endNode)
+        {
+            node.weight += weight;
+            return;
+        }
+    }
+    //if edge doesnt exist then create a new one
     adjacencyList[beginNode].push_back(edge(endNode, weight));
 }
 
@@ -197,7 +210,6 @@ bool graph::BFS(int startNode, int endNode)
         return false;
     }
     else{
-        std::cout << "At least one of the argument nodes are not in this graph. Please try again." << std::endl;
         return false;
     }
 }
@@ -454,4 +466,79 @@ void graph::updateResidualGraph()
             }
         }
     } 
+}
+
+graph::graph(int v_nodeCount)
+{
+    nodeCount = v_nodeCount;
+    adjacencyList = new std::list<edge>[nodeCount];
+
+    pred = new int[nodeCount];
+    dist = new int[nodeCount];
+
+    sourceNodes = nullptr;
+    targetNodes = nullptr;
+}
+
+int graph::capacityScalingFFMaxFlow()
+{
+    findMasterNodes();
+
+    //find the highest number that is a factor of 2
+    int workingMaxWeight = maxWeight();
+    std::cerr << "max weight: " << workingMaxWeight << std::endl;
+    int delta = 2;
+
+    while(delta < workingMaxWeight)
+    {
+        delta *= 2;
+    }
+    delta = delta / 2; 
+    std::cerr << "delta " << delta << std::endl;
+
+    graph workingGraph(nodeCount);
+    workingGraph.setMasterNodes(masterSource, masterTarget);
+    int maxFlow = 0;
+    while(delta >= 1)
+    {
+        for(int i = 0; i < nodeCount; ++i)
+        {
+            for(const auto& node : adjacencyList[i])
+            {
+                if(node.weight >= delta && node.weight < delta * 2)
+                {
+                    std::cout << i << " " << node.node << std::endl;
+                    workingGraph.addEdge(i, node.node, node.weight);
+                }
+            }
+        }
+        //use BFS to find shortest path
+        while(workingGraph.BFS(masterSource, masterTarget))
+        {
+            //set flow to the minimum cap of the path
+            maxFlow += workingGraph.setMinimumCap();
+            workingGraph.updateResidualGraph();
+        }
+        delta = delta / 2;
+    }
+
+    return maxFlow;
+}
+
+int graph::maxWeight()
+{
+    int maxWeight = 0;
+
+    for(int i = 0; i < nodeCount; ++i)
+    {
+        for(const auto& node : adjacencyList[i])
+        {
+            if(node.weight > maxWeight)
+            {
+                maxWeight = node.weight;
+            }
+        }
+    }
+
+    return maxWeight;
 }

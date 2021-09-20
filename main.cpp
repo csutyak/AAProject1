@@ -61,6 +61,19 @@ int main(int argc, char** argv)
 
             bfsGraph.printGraph();
         }
+        else if(strcmp(argv[1], "-cf") == 0)
+        {
+            if(argc != 3)
+            {
+                throw "-CF must have the format ./main -CF filename";
+            }
+            std::cout << "testing your application to the Capacity Scaling FF max flow problem" << std::endl;
+            graph bfsGraph(argv[2]);
+            bfsGraph.printGraph();
+
+            int maxFlow =  bfsGraph.capacityScalingFFMaxFlow();
+            std::cerr << "Max Flow is: " << maxFlow << std::endl;
+        }
     }
     catch(const char* exception)
     {
