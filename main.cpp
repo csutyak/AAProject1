@@ -21,7 +21,7 @@ int main(int argc, char** argv)
                 throw "-b must have the format ./main -b filename startnode endnode";
             }
             std::cout << "starting bfs implementation" << std::endl;
-            graph bfsGraph(argv[2]);
+            graph bfsGraph(argv[2], graphType::Fulkerson);
             bfsGraph.printGraph();
    
             if(bfsGraph.BFS(atoi(argv[3]), atoi(argv[4])))
@@ -40,11 +40,12 @@ int main(int argc, char** argv)
                 throw "-f must have the format ./main -f filename";
             }
             std::cout << "testing your Ford-Fulkerson implementation" << std::endl;
-            graph bfsGraph(argv[2]);
+            graph bfsGraph(argv[2], graphType::Fulkerson);
             bfsGraph.printGraph();
 
             int maxFlow =  bfsGraph.FFMaxFlow();
             std::cout << "Max Flow is: " << maxFlow << std::endl;
+            bfsGraph.printGraph();
         }
         else if(strcmp(argv[1], "-c") == 0)
         {
@@ -53,13 +54,21 @@ int main(int argc, char** argv)
                 throw "-c must have the format ./main -c filename";
             }
             std::cout << "testing your application to the circulation problem" << std::endl;
-            graph bfsGraph(argv[2]);
+            graph bfsGraph(argv[2], graphType::Circulation);
             bfsGraph.printGraph();
 
-            int maxFlow =  bfsGraph.FFMaxFlow();
-            std::cout << "Max Flow is: " << maxFlow << std::endl;
-
-            bfsGraph.printGraph();
+            int maxFlow, demand;
+            bfsGraph.solveCircultion(maxFlow, demand);
+            if(maxFlow >= demand)
+            {
+                std::cout << "This graph has a circulation! " << std::endl;
+                std::cout << "maxFlow: " << maxFlow << " Demand: " << demand << std::endl;
+            }
+            else
+            {
+                std::cout << "This graph does not have a circulation! " << std::endl;
+                std::cout << "maxFlow: " << maxFlow << " Demand: " << demand << std::endl;
+            }
         }
         else if(strcmp(argv[1], "-cf") == 0)
         {
@@ -68,7 +77,7 @@ int main(int argc, char** argv)
                 throw "-CF must have the format ./main -CF filename";
             }
             std::cout << "testing your application to the Capacity Scaling FF max flow problem" << std::endl;
-            graph bfsGraph(argv[2]);
+            graph bfsGraph(argv[2], graphType::Fulkerson);
             bfsGraph.printGraph();
 
             int maxFlow =  bfsGraph.capacityScalingFFMaxFlow();

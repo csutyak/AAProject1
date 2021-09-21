@@ -8,6 +8,11 @@
 #include <vector>
 #include <ctype.h>
 
+enum class graphType
+{
+    Fulkerson, Circulation
+};
+
 class edge
 {
 public:
@@ -23,7 +28,7 @@ class graph
 {
 public:
     //generates graph from filename
-    graph(std::string filename);
+    graph(std::string filename, graphType type);
     ~graph();
 
     //generates empty graph from node count
@@ -55,6 +60,8 @@ public:
     //finds the maxWeight of an edge in the graph
     int maxWeight();
 
+    void solveCircultion(int& supply, int& demand);
+
 private:
     //fills source node list with a list of source nodes
     void populateSourceNode();
@@ -71,6 +78,12 @@ private:
     void addFlow(int startNode, int endNode, int flow);
     //uses the flow of the nodes + capacity to create a residual graph
     void updateResidualGraph();
+    //generate default fulkersonGraph
+    void generateFulkersonGraph(std::string filename);
+    //generate graph circulation with weights
+    void generateCirculationGraph(std::string filename);
+    //creates the master nodes for a circulation graph using demand
+    void createCirculationMasterNodes();
 
     inline void setMasterNodes(int v_masterSource, int v_masterTarget) 
         { masterTarget = v_masterTarget; masterSource = v_masterSource; }
@@ -83,6 +96,11 @@ private:
     std::list<int> *sourceNodes;
     int masterTarget;
     int masterSource;
+
+    int* demandArray;
+    int totalDemand;
+
+    graphType type;
 
     //shortest path variables
     int* pred;

@@ -3,7 +3,21 @@
 #define MAXINPUT 65536
 #define INT_MAX 999999
 
-graph::graph(std::string filename)
+graph::graph(std::string filename, graphType Type)
+{
+    type = Type;
+
+    if(type == graphType::Fulkerson)
+    {
+        generateFulkersonGraph(filename);
+    }
+    else if(type == graphType::Circulation)
+    {
+        generateCirculationGraph(filename);
+    }
+}
+
+void graph::generateFulkersonGraph(std::string filename)
 {
     //configures file path
     const std::string FILENAME_PREFIX =  "../graphs/";
@@ -40,6 +54,8 @@ graph::graph(std::string filename)
 
     pred = new int[nodeCount];
     dist = new int[nodeCount];
+
+    demandArray = nullptr;
 
     //loops through file
     targetNodes = new std::list<int>;
@@ -95,6 +111,104 @@ graph::graph(std::string filename)
     populateSourceNode();
 }
 
+void graph::generateCirculationGraph(std::string filename)
+{
+    std::cout << "generating circulation graph" << std::endl;
+    //configures file path
+    const std::string FILENAME_PREFIX =  "../graphs/";
+    std::string fullFilename = FILENAME_PREFIX + filename;
+    std::ifstream inputStream;
+    inputStream.open(fullFilename);
+    if(inputStream.fail())
+    {
+        throw "PLEASE ENTER A GOOD FILENAME :)";
+    }
+
+    //for counting the number of nodes
+    std::ifstream inputStream2;
+    inputStream2.open(fullFilename);
+
+    char lineInput[MAXINPUT];
+    char workingSubstring[MAXINPUT];
+    int workingNodeValue;
+    int lineCtr = 0;
+    int lineIndex = 0;
+    int workingLineIndex = 0;
+    int workingConnectionValue = 0;
+    int nodeDemandValue = 0;
+    //indicates whether the value is a node or a weight
+    bool nodeFlag = true;
+
+    //count amount of nodes in the file
+    nodeCount = 0;
+    while(inputStream2.getline(lineInput,MAXINPUT))
+    {
+        ++nodeCount;
+    }
+
+    adjacencyList = new std::list<edge>[nodeCount];
+
+    pred = new int[nodeCount];
+    dist = new int[nodeCount];
+
+    demandArray = new int[nodeCount];
+    totalDemand = 0;
+
+    //loops through file
+    targetNodes = new std::list<int>;
+    sourceNodes = new std::list<int>;
+    while(inputStream.getline(lineInput,MAXINPUT))
+    {
+        char space = ' ';
+        strncat(lineInput, &space, 1);
+        lineIndex = 0;
+
+        while(lineInput[lineIndex] != ' ')
+        {
+            workingSubstring[lineIndex] = lineInput[lineIndex];
+            ++lineIndex;
+        }
+        workingSubstring[lineIndex] = '\0';
+        //set the demand per node to the first value
+        demandArray[lineCtr] = atoi(workingSubstring);
+        ++lineIndex;
+        //while the line isnt ended
+        nodeFlag = true;
+        while(lineInput[lineIndex]  != '\0')
+        {
+            //if it finds a space
+            if(lineInput[lineIndex] == ' ')
+            { 
+                workingSubstring[workingLineIndex] = '\0';
+                workingNodeValue = atoi(workingSubstring);
+                if(nodeFlag)
+                {
+                    workingConnectionValue = workingNodeValue;
+                    nodeFlag = false;
+                }
+                else
+                {
+                    addEdge(lineCtr, workingConnectionValue, workingNodeValue);
+                    nodeFlag = true;
+                }
+
+                workingLineIndex = -1;
+            }
+            else
+            {
+                workingSubstring[workingLineIndex] = lineInput[lineIndex];
+            }
+            ++workingLineIndex;
+            ++lineIndex;
+        }
+        ++lineCtr;
+    }
+    
+    inputStream2.close();
+    inputStream.close();
+    setAllFlow(0);
+}
+
 graph::~graph()
 {
     delete[] adjacencyList;
@@ -106,6 +220,11 @@ graph::~graph()
     {
         delete sourceNodes;
         delete targetNodes;
+    }
+
+    if(demandArray != nullptr)
+    {
+        delete[] demandArray;
     }
 }
 
@@ -124,7 +243,6 @@ void graph::addEdge(int beginNode, int endNode, int weight)
     adjacencyList[beginNode].push_back(edge(endNode, weight));
 }
 
-//This function will check to see if a node is in the graph or not
 bool graph::ifNode(int questionableNode)
 {
     if(questionableNode >= 0 && questionableNode <= nodeCount -1)
@@ -142,6 +260,15 @@ void graph::printGraph()
         for(const auto& node : adjacencyList[i])
         {
             std::cout << i << " -> " << node.node << " weight " << node.weight << " Flow " << node.flow << std::endl;
+        }
+    }
+
+    if(demandArray != nullptr)
+    {
+        std::cout << "Demand List:" << std::endl;
+        for(int i = 0; i < nodeCount; ++i)
+        {
+            std::cout << "node " << i << ": " << demandArray[i] << std::endl;
         }
     }
 }
@@ -239,7 +366,6 @@ void graph::printBFSPath(int endNode)
     std::cout << std::endl;
 }
 
-//This function will add up all the weights in the adjacency list and return the total
 int graph::totalWeights()
 {
     int total = 0;
@@ -288,13 +414,18 @@ void graph::populateSourceNode()
 int graph::FFMaxFlow()
 {
     //set the masterNode values
-    findMasterNodes();
+    if(type == graphType::Fulkerson)
+    {
+        findMasterNodes();
+    }
+    else
+    {
+        createCirculationMasterNodes();
+    }
     setAllFlow(0);
 
     int maximumCapacity = 0;
     //use BFS to find shortest path
-    //PUT THIS IN A WHILELOOP LATER WHEN THINGS WORK :)
-
     while(BFS(masterSource, masterTarget))
     {
         //set flow to the minimum cap of the path
@@ -390,6 +521,21 @@ void graph::allocateMoreNodes(int newNumNodes)
         
     }
     delete[] oldAdjacencyList;
+
+    if(demandArray != nullptr)
+    {
+        int* newDemandArray = new int[nodeCount];
+        for(int i = 0; i < nodeCount - newNumNodes; ++i)
+        {
+            newDemandArray[i] = demandArray[i];
+        }
+        for(int i = nodeCount-newNumNodes; i < nodeCount; ++i)
+        {
+            newDemandArray[i] = 0;
+        }
+        delete[] demandArray;
+        demandArray = newDemandArray;
+    }
 }
 
 int graph::setMinimumCap()
@@ -507,7 +653,6 @@ int graph::capacityScalingFFMaxFlow()
             {
                 if(node.weight >= delta && node.weight < delta * 2)
                 {
-                    std::cout << i << " " << node.node << std::endl;
                     workingGraph.addEdge(i, node.node, node.weight);
                 }
             }
@@ -541,4 +686,49 @@ int graph::maxWeight()
     }
 
     return maxWeight;
+}
+
+void graph::createCirculationMasterNodes()
+{
+    //loop through the demand array
+    //all negative are source and all positive are sink
+    for(int i = 0; i < nodeCount; ++i)
+    {
+        if(demandArray[i] < 0)
+        {
+            sourceNodes->push_back(i);
+        }
+        else if(demandArray[i] > 0)
+        {
+            totalDemand += demandArray[i];
+            targetNodes->push_back(i);
+        }
+    }
+
+    if(sourceNodes->size() == 0 || targetNodes->size() == 0)
+    {
+        throw "there must be at least 1 source or target node";
+    }
+
+    allocateMoreNodes(2);
+
+    //create master source node
+    masterSource = nodeCount - 2;
+    for(const auto& node : *sourceNodes)
+    {
+        addEdge(masterSource, node, demandArray[node] * -1);
+    }
+
+    //create master target node
+    masterTarget = nodeCount - 1;
+    for(const auto& node : *targetNodes)
+    {
+        addEdge(node, masterTarget, demandArray[node]);
+    }
+}
+
+void graph::solveCircultion(int& supply, int& demand)
+{
+    supply = FFMaxFlow();
+    demand = totalDemand;
 }
