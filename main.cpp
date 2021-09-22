@@ -10,7 +10,7 @@ int main(int argc, char** argv)
 
     try
     {
-        if(argc != 5 && argc != 3)
+        if(argc != 5 && argc != 4 && argc != 3)
         {
             throw "format is ./main -option options";
         }
@@ -86,6 +86,15 @@ int main(int argc, char** argv)
 
             int maxFlow =  bfsGraph.capacityScalingFFMaxFlow();
             std::cerr << "Max Flow is: " << maxFlow << std::endl;
+        }
+        //graph creation for testing
+        else if(strcmp(argv[1], "-g") == 0)
+        {
+            if(argc != 4)
+            {
+                throw "-g must have the format ./main -g filename nodecount";
+            }
+            std::cout << "Creating graph with " << argv[3] << " nodes to graph file named " << argv[2] << std::endl;
         }
     }
     catch(const char* exception)
