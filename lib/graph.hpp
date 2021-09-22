@@ -45,6 +45,7 @@ public:
 
     //Finds shortest path using BFS
     bool BFS(int startNode, int endNode);
+    
     //prints shortest path
     void printBFSPath(int endNode);
 

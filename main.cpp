@@ -1,9 +1,9 @@
-#include <iostream>
-#include <string.h>
-
+#include "createGraph.hpp"
 #include "main.hpp"
 #include "graph.hpp"
-#include "createGraph.hpp"
+
+#include <iostream>
+#include <string.h>
 
 int main(int argc, char** argv)
 {
@@ -97,6 +97,12 @@ int main(int argc, char** argv)
             }
             
             int graphType = createGraphGreeting(argv[2], argv[3], argv[4]);
+
+            int nodeCount = std::stoi(argv[3]);
+
+            graphCreate(argv[2], nodeCount, graphType);
+
+            std::cerr << "Finished. Please check the graph folder for your new graph!" << std::endl;
         }
     }
     catch(const char* exception)
