@@ -1,5 +1,5 @@
 How to run our AAProject1: Flow Network
-    There are three programs, and thus three ways to run our program.
+    There are five way to run our programs, and thus five ways to run our program.
 
     1. Command to run Breadth-First-Search implementation:
         ./main -b <graphFile.txt> s t

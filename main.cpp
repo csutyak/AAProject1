@@ -3,6 +3,7 @@
 
 #include "main.hpp"
 #include "graph.hpp"
+#include "createGraph.hpp"
 
 int main(int argc, char** argv)
 {
@@ -94,7 +95,8 @@ int main(int argc, char** argv)
             {
                 throw "-g must have the format ./main -g filename nodeCount graphUse";
             }
-            std::cout << "Creating graph for " << argv[4] << " purposes with " << argv[3] << " nodes to graph file named " << argv[2] << std::endl;
+            
+            int graphType = createGraphGreeting(argv[2], argv[3], argv[4]);
         }
     }
     catch(const char* exception)
