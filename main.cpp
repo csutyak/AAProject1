@@ -10,7 +10,7 @@ int main(int argc, char** argv)
 
     try
     {
-        if(argc != 5 && argc != 4 && argc != 3)
+        if(argc != 5 && argc != 3)
         {
             throw "format is ./main -option options";
         }
@@ -90,11 +90,11 @@ int main(int argc, char** argv)
         //graph creation for testing
         else if(strcmp(argv[1], "-g") == 0)
         {
-            if(argc != 4)
+            if(argc != 5)
             {
-                throw "-g must have the format ./main -g filename nodecount";
+                throw "-g must have the format ./main -g filename nodeCount graphUse";
             }
-            std::cout << "Creating graph with " << argv[3] << " nodes to graph file named " << argv[2] << std::endl;
+            std::cout << "Creating graph for " << argv[4] << " purposes with " << argv[3] << " nodes to graph file named " << argv[2] << std::endl;
         }
     }
     catch(const char* exception)
