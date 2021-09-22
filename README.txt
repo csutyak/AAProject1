@@ -13,9 +13,14 @@ How to run our AAProject1: Flow Network
         * make sure to input a real graph file that is inside the graph folder
             * no other input is needed
 
-    3. Command to run circulation problem implementations:
-        ./main -c <circulation.txt>
-            *make sure to input a real circulation file that is inside the graph folder
+    3. Command to run circulation problem implementation:
+        ./main -c <graphFile.txt>
+            * make sure to input a real circulation file that is inside the graph folder
+            * no other input is needed
+
+    4. Command to run capacity scaling problem implementation:
+        ./main -CF <graphfile.txt>
+            * make sure to input a real capacity scaling file that is inside the graph folder
             * no other input is needed
 
     Special note:

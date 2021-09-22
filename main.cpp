@@ -14,6 +14,7 @@ int main(int argc, char** argv)
         {
             throw "format is ./main -option options";
         }
+        //Breadth First Search
         if(strcmp(argv[1], "-b") == 0)
         {   
             if(argc != 5)
@@ -33,6 +34,7 @@ int main(int argc, char** argv)
                 std::cout << "There is no shortest path!" << std::endl;
             }
         }
+        //Ford-Fulkerson implementation
         else if(strcmp(argv[1], "-f") == 0)
         {
             if(argc != 3)
@@ -47,6 +49,7 @@ int main(int argc, char** argv)
             std::cout << "Max Flow is: " << maxFlow << std::endl;
             bfsGraph.printGraph();
         }
+        //Circulation Problem
         else if(strcmp(argv[1], "-c") == 0)
         {
             if(argc != 3)
@@ -70,6 +73,7 @@ int main(int argc, char** argv)
                 std::cout << "maxFlow: " << maxFlow << " Demand: " << demand << std::endl;
             }
         }
+        //Capacity Scaling Flow Problem
         else if(strcmp(argv[1], "-cf") == 0)
         {
             if(argc != 3)
