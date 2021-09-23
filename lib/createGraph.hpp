@@ -7,7 +7,7 @@
 #include <string>
 #include <fstream>
 
-void graphCreate(std::string filename, int nodeCount, int graphType)
+void graphCreate(std::string filename, int nodeCount, graphType type)
 {
     //configures file path
     const std::string FILENAME_PREFIX =  "../graphs/";
@@ -15,26 +15,15 @@ void graphCreate(std::string filename, int nodeCount, int graphType)
     std::ofstream inputStream;
     inputStream.open(fullFilename);
 
-
     //single source single target
-    if(graphType == 1)
+    if(type == graphType::Fulkerson)
     {
         //create a graph
         //write to a file
         
     }
-    //multiple source multiple target
-    else if(graphType == 2)
-    {
-
-    }
     //demands with single source single target
-    else if(graphType == 3)
-    {
-
-    }
-    //capacity flow specific graph
-    else if(graphType == 4)
+    else if(type == graphType::Circulation)
     {
 
     }
