@@ -41,7 +41,10 @@ void graphCreate(std::string filename, int nodeCount, int graphType)
 
 }
 
-
+void singleSourceTargetGraph()
+{
+    
+}
 
 //input a graph into file
 void writeFile(std::fstream filename, graph inputGraph, int nodeCount, bool isDemand)
