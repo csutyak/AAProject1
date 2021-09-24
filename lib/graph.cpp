@@ -381,6 +381,21 @@ int graph::totalWeights()
     return total;
 }
 
+//finds the total edges of the graph
+int graph::totalEdges() {
+    int total = 0;
+
+    for(int i = 0; i < nodeCount; ++i)
+    {
+        for(const auto& node : adjacencyList[i])
+        {
+            ++total;
+        }
+    }
+
+    return total;
+}
+
 void graph::populateSourceNode()
 {
     bool* foundArray = new bool[nodeCount];

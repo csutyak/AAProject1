@@ -72,7 +72,7 @@ void generateGraph(int nodeCount, bool ifDemand, std::ofstream& file)
     //find connections
     std::vector<int> pastConnections;
     //for the first node
-    //srand(time(NULL));
+
     //find how many nodes the source will connect to
     int connectionAmount = rand() % layerNodeCount[1] + 1; 
 
@@ -140,6 +140,7 @@ void generateGraph(int nodeCount, bool ifDemand, std::ofstream& file)
         file << std::endl;
     }
 
+    //to account for the last node
     file << std::endl;
 }
 

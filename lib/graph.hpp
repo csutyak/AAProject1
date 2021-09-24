@@ -58,6 +58,9 @@ public:
     //finds the total weight of the graph
     int totalWeights();
 
+    //finds the total edges of the graph
+    int totalEdges();
+
     //finds the maxWeight of an edge in the graph
     int maxWeight();
 
