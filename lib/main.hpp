@@ -21,8 +21,12 @@ void greeting()
 //Purpose: figure out user input about the type of graph needed to be created
 //Input: From the commandline, recieve the filename, nodecount, and the purpose of the graph
 //Output: A number representing the type of graph needed to be made
-graphType createGraphGreeting(std::string const fileName, std::string const nodeCount, std::string graphPurpose)
+graphType createGraphGreeting(std::string const fileName, int nodeCount, std::string graphPurpose)
 {
+    if(nodeCount < 4) {
+        throw "Graph needs to have 3 or more nodes";
+    }
+
     if(!graphPurpose.compare("f"))
     {
         std::cout << "Creating graph for fulkerson purposes with " << nodeCount << " nodes to graph file named " << fileName << std::endl;

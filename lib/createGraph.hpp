@@ -5,83 +5,162 @@
 
 #include <iostream>
 #include <string>
+#include <algorithm>
+#include <vector>
 #include <fstream>
+#include <math.h>
+#include <stdlib.h>
+#include <time.h>
+
+int nodeThreshold(int* layerArray, int currLayer) {
+
+    int total = 0;
+
+    for(int i = 0; i < currLayer + 1; ++i) {
+
+        total += layerArray[i];
+    }
+
+    return total;
+}
+
+void generateGraph(int nodeCount, bool ifDemand, std::ofstream& file)
+{
+    //take square root of node count (round to int)= layers
+    int layers = ceil(sqrt (nodeCount));
+    //node count / number of layers = base layer number
+    int avgNodeAmountInLayers = ceil(nodeCount / layers);
+    //generating an array that holds the node count per layer of size layers
+    int layerNodeCount [layers];
+
+    //make the first and last layer 1 for the target and source
+    layerNodeCount[0] = 1;
+    layerNodeCount[layers - 1] = 1;
+    //initialize total amount of nodes in each layer
+    int totalNodes = 2;
+
+    do{
+        totalNodes = 2;
+        srand(time(NULL));
+
+        //iterate through the nodeCount array
+        for(int i = 1; i < layers - 2; ++i)
+        {
+            //randomnumber range = +-(layers / 2)
+            int nodePerLayer = rand() % avgNodeAmountInLayers + (- (ceil(layers / 4)));
+            
+            //add that to the base layer number
+            layerNodeCount[i] = avgNodeAmountInLayers + nodePerLayer;
+
+            totalNodes += avgNodeAmountInLayers + nodePerLayer;
+        }
+
+        //the last number of array = nodeCount - all othber numbers in the array
+        layerNodeCount[layers - 2] = nodeCount - totalNodes;
+
+    } 
+    //if nodeCount > count of all nodes in array then redo array calc.
+    while(totalNodes > nodeCount);
+
+    std::cout << "layer node count: ";
+    for(int i = 0; i < layers; ++i) {
+        std::cout << layerNodeCount[i] << "  ";
+    }
+    std::cout << std::endl;
+
+
+    //find connections
+    std::vector<int> pastConnections;
+    //for the first node
+    //srand(time(NULL));
+    //find how many nodes the source will connect to
+    int connectionAmount = rand() % layerNodeCount[1] + 1; 
+
+    for (int i = 0; i < connectionAmount; ++i) 
+    {
+        //pick a random node in the second layer 
+        int randConnection = rand() % layerNodeCount[1] + 1;
+  
+        if (std::find(pastConnections.begin(), pastConnections.end(), randConnection) != pastConnections.end())
+        {
+            --i;
+        }
+        else 
+        {
+            pastConnections.push_back(randConnection);
+
+            file << randConnection << " " << (rand() % 50 + 1) << " ";
+        }
+    }
+
+    file << std::endl;
+
+    //for all the middle nodes
+    int currLayer = 1;
+    int currNodeThreshhold = 0;
+
+    for(int i = 1; i < nodeCount - 1; ++i)
+    {
+        pastConnections.clear();
+
+        currNodeThreshhold = nodeThreshold(layerNodeCount, currLayer);
+
+        if(i == currNodeThreshhold)
+        {
+            ++currLayer; 
+        }
+        std::cout << "TA: " << currNodeThreshhold << std::endl;
+
+        //chooses the amount of connections from currNode
+        ////randomnumber range from before + layers = amount of connections
+        connectionAmount = rand() % layerNodeCount[currLayer + 1] + 1;
+        
+        for(int j = 0; j < connectionAmount; ++j)
+        {
+            //pick a random node in the current or next layer 
+            //select random amount of nodes based on randomnumber generated,
+            int randConnection = rand() % (nodeThreshold(layerNodeCount, currLayer + 1) - i) + (i);
+  
+            //donot select node more than once
+            if (std::find(pastConnections.begin(), pastConnections.end(), randConnection) != pastConnections.end()) {
+                   
+                --j;
+            }
+            else{
+
+                pastConnections.push_back(randConnection);
+
+                //weight is just random number from 1 - 20
+                file << randConnection << " " << (rand() % 50 + 1) << " ";
+            }
+        }
+
+        currNodeThreshhold = 0;
+
+        file << std::endl;
+    }
+}
 
 void graphCreate(std::string filename, int nodeCount, graphType type)
 {
     //configures file path
     const std::string FILENAME_PREFIX =  "../graphs/";
     std::string fullFilename = FILENAME_PREFIX + filename;
-    std::ofstream inputStream;
-    inputStream.open(fullFilename);
+    std::ofstream outputStream;
+    outputStream.open(fullFilename);
 
     //single source single target
     if(type == graphType::Fulkerson)
     {
-        //create a graph
-        //write to a file
-        
+        generateGraph(nodeCount, false, outputStream);
     }
     //demands with single source single target
     else if(type == graphType::Circulation)
     {
-
+        generateGraph(nodeCount, false, outputStream);
     }
 
-}
-
-void generateFulkersonGraph(int nodeCount)
-{
-    //take square root of node count (round to int)= layers
-    //node count / number of layers = base layer number
-    //generating an array that holds the node count per layer of size layers
-    //iterate through the nodeCount array
-    //randomnumber range = +-(layers / 2)
-    //add that to the base layer number
-    //the last number of array = nodeCount - all othber numbers in the array
-    //if nodeCount > count of all nodes in array then redo array calc.
-
-    //find connections
-    //randomnumber range from before + layers = amount of connections
-    //select random amount of nodes based on randomnumber generated, donot select node more than once
-    //weight is just random number from 1 - 20
-}
-
-//input a graph into file
-void writeFile(std::fstream filename, graph inputGraph, int nodeCount, bool isDemand)
-{
-    //no need to account for demand
-    if(isDemand = false)
-    {
-        //no need to include demands
-
-        //write to file
-        for(int i = 0; i < nodeCount; ++i)
-        {
-            //for(const auto& node : inputGraph.adjacencyList[i])
-            {
-                //filename << node.node << " " << node.weight << " ";
-            }
-
-            filename << std::endl;
-        }
-    }
-    //need to worry about demand
-    else
-    {
-        //write to file
-        for(int i = 0; i < nodeCount; ++i)
-        {
-            //filename << adjacencyList[i].demand;
-
-            //for(const auto& node : inputGraph.adjacencyList[i])
-            {
-                //filename << " " << node.node << " " << node.weight << " ";
-            }
-
-            filename << std::endl;
-        }
-    }
+    outputStream.close();
 }
 
 #endif

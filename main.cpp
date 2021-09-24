@@ -96,11 +96,11 @@ int main(int argc, char** argv)
                 throw "-g must have the format ./main -g filename nodeCount graphUse";
             }
             
-            graphType type = createGraphGreeting(argv[2], argv[3], argv[4]);
-
             int nodeCount = std::stoi(argv[3]);
 
-            graphCreate(argv[2], nodeCount,type);
+            graphType type = createGraphGreeting(argv[2], nodeCount, argv[4]);
+
+            graphCreate(argv[2], nodeCount, type);
 
             std::cerr << "Finished. Please check the graph folder for your new graph!" << std::endl;
         }
