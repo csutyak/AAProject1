@@ -616,6 +616,9 @@ void graph::updateResidualGraph()
 
 graph::graph(int v_nodeCount)
 {
+    type = graphType::Fulkerson;
+    demandArray = nullptr;
+
     nodeCount = v_nodeCount;
     adjacencyList = new std::list<edge>[nodeCount];
 
@@ -632,7 +635,6 @@ int graph::capacityScalingFFMaxFlow()
 
     //find the highest number that is a factor of 2
     int workingMaxWeight = maxWeight();
-    std::cerr << "max weight: " << workingMaxWeight << std::endl;
     int delta = 2;
 
     while(delta < workingMaxWeight)
@@ -640,7 +642,6 @@ int graph::capacityScalingFFMaxFlow()
         delta *= 2;
     }
     delta = delta / 2; 
-    std::cerr << "delta " << delta << std::endl;
 
     graph workingGraph(nodeCount);
     workingGraph.setMasterNodes(masterSource, masterTarget);
