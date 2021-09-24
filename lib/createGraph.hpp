@@ -30,9 +30,21 @@ void graphCreate(std::string filename, int nodeCount, graphType type)
 
 }
 
-void singleSourceTargetGraph()
+void generateFulkersonGraph(int nodeCount)
 {
-    
+    //take square root of node count (round to int)= layers
+    //node count / number of layers = base layer number
+    //generating an array that holds the node count per layer of size layers
+    //iterate through the nodeCount array
+    //randomnumber range = +-(layers / 2)
+    //add that to the base layer number
+    //the last number of array = nodeCount - all othber numbers in the array
+    //if nodeCount > count of all nodes in array then redo array calc.
+
+    //find connections
+    //randomnumber range from before + layers = amount of connections
+    //select random amount of nodes based on randomnumber generated, donot select node more than once
+    //weight is just random number from 1 - 20
 }
 
 //input a graph into file
