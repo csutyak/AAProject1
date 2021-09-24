@@ -44,11 +44,11 @@ int main(int argc, char** argv)
             }
             std::cout << "testing your Ford-Fulkerson implementation" << std::endl;
             graph bfsGraph(argv[2], graphType::Fulkerson);
-            bfsGraph.printGraph();
+            //bfsGraph.printGraph();
 
             int maxFlow =  bfsGraph.FFMaxFlow();
             std::cout << "Max Flow is: " << maxFlow << std::endl;
-            bfsGraph.printGraph();
+            //bfsGraph.printGraph();
         }
         //Circulation Problem
         else if(strcmp(argv[1], "-c") == 0)
@@ -59,7 +59,7 @@ int main(int argc, char** argv)
             }
             std::cout << "testing your application to the circulation problem" << std::endl;
             graph bfsGraph(argv[2], graphType::Circulation);
-            bfsGraph.printGraph();
+            //bfsGraph.printGraph();
 
             int maxFlow, demand;
             bfsGraph.solveCircultion(maxFlow, demand);
@@ -83,7 +83,7 @@ int main(int argc, char** argv)
             }
             std::cout << "testing your application to the Capacity Scaling FF max flow problem" << std::endl;
             graph bfsGraph(argv[2], graphType::Fulkerson);
-            bfsGraph.printGraph();
+            //bfsGraph.printGraph();
 
             int maxFlow =  bfsGraph.capacityScalingFFMaxFlow();
             std::cerr << "Max Flow is: " << maxFlow << std::endl;

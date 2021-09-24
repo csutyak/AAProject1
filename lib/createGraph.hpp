@@ -119,7 +119,7 @@ void generateGraph(int nodeCount, bool ifDemand, std::ofstream& file)
         {
             //pick a random node in the current or next layer 
             //select random amount of nodes based on randomnumber generated,
-            int randConnection = rand() % (nodeThreshold(layerNodeCount, currLayer + 1) - i) + (i);
+            int randConnection = rand() % (nodeThreshold(layerNodeCount, currLayer + 1) - i - 1) + (i + 1);
   
             //donot select node more than once
             if (std::find(pastConnections.begin(), pastConnections.end(), randConnection) != pastConnections.end()) {
@@ -139,6 +139,8 @@ void generateGraph(int nodeCount, bool ifDemand, std::ofstream& file)
 
         file << std::endl;
     }
+
+    file << std::endl;
 }
 
 void graphCreate(std::string filename, int nodeCount, graphType type)
