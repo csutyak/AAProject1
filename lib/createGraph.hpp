@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <time.h>
 
+//finds the node at the end of a specific layer
 int nodeThreshold(int* layerArray, int currLayer) {
 
     int total = 0;
@@ -24,6 +25,7 @@ int nodeThreshold(int* layerArray, int currLayer) {
     return total;
 }
 
+//generates both a regular graph and a circulation graph; depending on the flag
 void generateGraph(int nodeCount, bool ifDemand, std::ofstream& file)
 {
     //take square root of node count (round to int)= layers
@@ -36,8 +38,9 @@ void generateGraph(int nodeCount, bool ifDemand, std::ofstream& file)
     //make the first and last layer 1 for the target and source
     layerNodeCount[0] = 1;
     layerNodeCount[layers - 1] = 1;
+
     //initialize total amount of nodes in each layer
-    int totalNodes = 2;
+    int totalNodes;
 
     do{
         totalNodes = 2;
@@ -62,25 +65,27 @@ void generateGraph(int nodeCount, bool ifDemand, std::ofstream& file)
     //if nodeCount > count of all nodes in array then redo array calc.
     while(totalNodes > nodeCount);
 
+    //nodes in the layer
     std::cout << "layer node count: ";
     for(int i = 0; i < layers; ++i) {
         std::cout << layerNodeCount[i] << "  ";
     }
     std::cout << std::endl;
 
-
     //find connections
     std::vector<int> pastConnections;
 
-    //for the first node
-    //find how many nodes the source will connect to
+    //for the first node as the source
+    //randomly picks many nodes the source will connect to
     int connectionAmount = rand() % layerNodeCount[1] + 1; 
 
+    //add a demand if needed
     if (ifDemand)
     {
         file << (rand() % (-1) - 10) << " ";
     }
 
+    //loop through to look at the next layer of to create connections
     for (int i = 0; i < connectionAmount; ++i) 
     {
         //pick a random node in the second layer 
@@ -92,6 +97,7 @@ void generateGraph(int nodeCount, bool ifDemand, std::ofstream& file)
         }
         else 
         {
+            //found a connection, add it to make sure not found again
             pastConnections.push_back(randConnection);
 
             file << randConnection << " " << (rand() % 50 + 1) << " ";
@@ -110,21 +116,23 @@ void generateGraph(int nodeCount, bool ifDemand, std::ofstream& file)
 
         currNodeThreshhold = nodeThreshold(layerNodeCount, currLayer);
 
+        //used to pick the biggest node to connect to 
         if(i == currNodeThreshhold)
         {
             ++currLayer; 
         }
-        std::cout << "TA: " << currNodeThreshhold << std::endl;
 
         //chooses the amount of connections from currNode
         ////randomnumber range from before + layers = amount of connections
         connectionAmount = rand() % layerNodeCount[currLayer + 1] + 1;
 
+        //add demand of 0 if needed
         if (ifDemand)
         {
             file << 0 << " ";
         }
         
+        //do those connections
         for(int j = 0; j < connectionAmount; ++j)
         {
             //pick a random node in the current or next layer 
@@ -154,6 +162,7 @@ void generateGraph(int nodeCount, bool ifDemand, std::ofstream& file)
     file << rand() % 10 + 1 << std::endl;
 }
 
+//sets up the file creation and sets flag to determine the type of graph the user wants
 void graphCreate(std::string filename, int nodeCount, graphType type)
 {
     //configures file path
