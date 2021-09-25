@@ -71,10 +71,15 @@ void generateGraph(int nodeCount, bool ifDemand, std::ofstream& file)
 
     //find connections
     std::vector<int> pastConnections;
-    //for the first node
 
+    //for the first node
     //find how many nodes the source will connect to
     int connectionAmount = rand() % layerNodeCount[1] + 1; 
+
+    if (ifDemand)
+    {
+        file << (rand() % (-1) - 10) << " ";
+    }
 
     for (int i = 0; i < connectionAmount; ++i) 
     {
@@ -114,6 +119,11 @@ void generateGraph(int nodeCount, bool ifDemand, std::ofstream& file)
         //chooses the amount of connections from currNode
         ////randomnumber range from before + layers = amount of connections
         connectionAmount = rand() % layerNodeCount[currLayer + 1] + 1;
+
+        if (ifDemand)
+        {
+            file << 0 << " ";
+        }
         
         for(int j = 0; j < connectionAmount; ++j)
         {
@@ -135,13 +145,13 @@ void generateGraph(int nodeCount, bool ifDemand, std::ofstream& file)
             }
         }
 
-        currNodeThreshhold = 0;
-
         file << std::endl;
+
+        currNodeThreshhold = 0;
     }
 
     //to account for the last node
-    file << std::endl;
+    file << rand() % 10 + 1 << std::endl;
 }
 
 void graphCreate(std::string filename, int nodeCount, graphType type)
@@ -160,7 +170,7 @@ void graphCreate(std::string filename, int nodeCount, graphType type)
     //demands with single source single target
     else if(type == graphType::Circulation)
     {
-        generateGraph(nodeCount, false, outputStream);
+        generateGraph(nodeCount, true, outputStream);
     }
 
     outputStream.close();

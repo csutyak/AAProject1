@@ -28,10 +28,8 @@ How to run our AAProject1: Flow Network
             * be careful what graphfile name is inputted. If the file already exists, it will be overwritten. The created file can be found in the 'graphs' folder
             * variable 'n' represents the node count of the new graph
             * variable 'g' represents the usage for the graph created. Depending on what is inputted, it will create a different kind of graph.
-                ** accepts 'b' to create a regular graph - one source and one target
-                ** accepts 'f' to create a graph with multiple sources and targets
-                ** accepts 'c' to create a graph which will add demands to the graph
-                ** accepts 'cf' to create a graph suited to test the capacity scaling problem
+                ** accepts 'f' to create a graph with at least one source and one target node
+                ** accepts 'c' to create a graph which will add demands to the graph with at least one source and one target node
             * no other input is needed
 
     Special note:
