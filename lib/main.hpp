@@ -37,6 +37,11 @@ graphType createGraphGreeting(std::string const fileName, int nodeCount, std::st
         std::cout << "Creating graph for circulation purposes with " << nodeCount << " nodes to graph file named " << fileName << std::endl;
         return graphType::Circulation;
     }
+    else if(!graphPurpose.compare("s"))
+    { 
+        std::cout << "Creating graph for capacity scaling purposes with " << nodeCount << " nodes to graph file named " << fileName << std::endl;
+        return graphType::CapacityScaling;
+    }
     else
     {
         throw "Graph purpose has bad formatting. Please look at README.txt for more information";

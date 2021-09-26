@@ -10,7 +10,7 @@
 
 enum class graphType
 {
-    Fulkerson, Circulation
+    Fulkerson, Circulation, CapacityScaling
 };
 
 class edge
