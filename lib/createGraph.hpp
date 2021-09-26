@@ -1,3 +1,9 @@
+/*
+    createGraph.hpp
+
+    Declaration and implementation of functions to create a graph file
+*/
+
 #ifndef CREATEGRAPH_HPP
 #define CREATEGRAPH_HPP
 
@@ -159,7 +165,14 @@ void generateGraph(int nodeCount, bool ifDemand, std::ofstream& file)
     }
 
     //to account for the last node
-    file << rand() % 10 + 1 << std::endl;
+    if(ifDemand)
+    {
+        file << rand() % 10 + 1 << std::endl;
+    }
+    else 
+    {
+        file << std::endl;
+    }
 }
 
 //sets up the file creation and sets flag to determine the type of graph the user wants

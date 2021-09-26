@@ -109,6 +109,8 @@ void graph::generateFulkersonGraph(std::string filename)
     inputStream.close();
     setAllFlow(0);
     populateSourceNode();
+
+    std::cout << "TotalEdges: " << totalEdges() << std::endl;
 }
 
 void graph::generateCirculationGraph(std::string filename)
@@ -207,6 +209,8 @@ void graph::generateCirculationGraph(std::string filename)
     inputStream2.close();
     inputStream.close();
     setAllFlow(0);
+
+    std::cout << "TotalEdges: " << totalEdges() << std::endl;
 }
 
 graph::~graph()
