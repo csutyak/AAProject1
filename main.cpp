@@ -24,7 +24,7 @@ int main(int argc, char** argv)
             }
             std::cout << "starting bfs implementation" << std::endl;
             graph bfsGraph(argv[2], graphType::Fulkerson);
-            bfsGraph.printGraph();
+            //bfsGraph.printGraph();
    
             if(bfsGraph.BFS(atoi(argv[3]), atoi(argv[4])))
             {
