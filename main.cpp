@@ -62,7 +62,7 @@ int main(int argc, char** argv)
             //bfsGraph.printGraph();
 
             int maxFlow, demand;
-            bfsGraph.solveCircultion(maxFlow, demand);
+            bfsGraph.solveCirculation(maxFlow, demand);
             if(maxFlow >= demand)
             {
                 std::cout << "This graph has a circulation! " << std::endl;
