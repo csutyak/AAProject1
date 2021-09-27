@@ -26,7 +26,7 @@ How to run our AAProject1: Flow Network
     5. Command to run graph creator:
         ./main -g <graphfile.txt> n g
             * be careful what graphfile name is inputted. If the file already exists, it will be overwritten. The created file can be found in the 'graphs' folder
-            * variable 'n' represents the node count of the new graph
+            * variable 'n' represents the node count of the new graph. The node count must be 5 nodes or greater
             * variable 'g' represents the usage for the graph created. Depending on what is inputted, it will create a different kind of graph.
                 ** accepts 'f' to create a graph with at least one source and one target node
                 ** accepts 'c' to create a graph which will add demands to the graph with at least one source and one target node

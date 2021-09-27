@@ -23,8 +23,8 @@ void greeting()
 //Output: A number representing the type of graph needed to be made
 graphType createGraphGreeting(std::string const fileName, int nodeCount, std::string graphPurpose)
 {
-    if(nodeCount < 4) {
-        throw "Graph needs to have 3 or more nodes";
+    if(nodeCount < 5) {
+        throw "Graph needs to have 5 or more nodes";
     }
 
     if(!graphPurpose.compare("f"))
