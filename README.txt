@@ -1,3 +1,10 @@
+To build our AAProject1:
+	create a build folder inside the project folder and run in the build directory:
+	cmake ..
+	make
+	
+	The executable will be created as main
+
 How to run our AAProject1: Flow Network
     There are five way to run our programs, and thus five ways to run our program.
 
