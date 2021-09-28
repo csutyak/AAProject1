@@ -42,3 +42,7 @@ How to run our AAProject1: Flow Network
 
     Special note:
     ***All input graphs must go into graph folder!!!!!!!! :) ***
+
+Credits:
+	Our Breadth first search algorithm can be found at:
+	https://cp-algorithms.com/graph/breadth-first-search.html
